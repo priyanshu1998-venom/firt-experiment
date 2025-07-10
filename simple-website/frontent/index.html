@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Simple Web App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Hello User</h1>
+    <form id="nameForm">
+      <input type="text" id="nameInput" placeholder="Enter your name" required />
+      <button type="submit">Submit</button>
+    </form>
+    <p id="responseText"></p>
+  </div>
+
+  <script>
+    const form = document.getElementById("nameForm");
+    const input = document.getElementById("nameInput");
+    const responseText = document.getElementById("responseText");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = input.value;
+
+      const res = await fetch("http://localhost:3000/api/greet", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name })
+      });
+
+      const data = await res.json();
+      responseText.textContent = data.message;
+    });
+  </script>
+</body>
+</html>
